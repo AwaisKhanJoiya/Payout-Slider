@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payout Slider</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+:root{
+    --background: #32FFB8;
+    --total: #32FFB8;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', 'sans-serif';
+}
+body{
+    background: black;
+}
+.slider-container{
+    margin: 20px;
+    width: 600px;
+    border: 1px solid #292A2B;
+    border-radius: 15px;
+    color: white;
+    background: black;
+    height: 400px;
+    padding: 30px;
+}
+.payout-slider-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.slider-heading{
+    font-size: 25px;
+}
+.slider-buttons{
+    border: 1px solid #7B87A5;
+    border-radius: 13px;
+    overflow: hidden;
+}
+.btn{
+    background: transparent;
+    border: none;
+    padding: 5px 30px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+}
+.buy-btn{
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+}
+.short-btn{
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+}
+.buy-btn.active{
+    background: #292A2B;
+    color: #32FFB8;
+}
+.short-btn.active{
+    background: #292A2B;
+    color: rgb(61, 61, 252);
+}
+
+.slider-price-div{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.slider-price-shares{
+    display: flex;
+    justify-content: space-between;
+}
+.slider-price{
+    margin-right: 20px;
+}
+.top-tag{
+    color: #7B87A5;
+    font-weight: 500;
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+.bottom-tag{
+    font-weight: 600;
+    font-size: 17px;
+}
+.shares-quantity{
+    border: 1px solid #7B87A5;
+    border-radius: 5px;
+    padding: 2px 6px;
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+    align-items: center;
+}
+.shares-quantity input{
+    width: 20px;
+    height: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    text-align: center;
+}
+
+/* Disable arrows in number input  */
+/* Chrome, Safari, Edge, Opera */
+.shares-quantity input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  
+}
+
+/* Firefox */
+.shares-quantity input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.shares-text{
+    margin-bottom: 9px;
+}
+span{
+    margin-bottom: 2px;
+    cursor: pointer;
+    user-select: none;
+}
+.minus{
+    margin-bottom: 5px;
+    font-size: 25px;
+}
+.total-pl{
+    color: var(--total);
+}
+.payout-slider-div{
+    margin-top: 60px;
+    width: 100%;
+    position: relative;
+}
+.slider-text{
+    color: #7B87A5;
+}
+.slider-top{
+    margin-bottom: 9px;
+}
+.slider-bottom{
+    margin-top: 9px;
+}
+.slider{
+    width: 100%;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--background);
+    color: red;
+    position: relative;
+    z-index: 100;
+} 
+input[type="range"]::-moz-range-thumb{
+      -webkit-appearance: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--background);
+    position: relative;
+    z-index: 100;
+
+  }
+.slider{
+    background: linear-gradient(
+        to right,
+        #7B87A5 50%,
+        /* rgb(119, 118, 148) 50%, */
+        #292A2B 50%,
+        #292A2B 100%
+      );
+      cursor: pointer;
+      color: #32FFB8;
+      border: none;
+      border-radius: 3px;
+      height: 10px;
+      width: 100%;
+      outline: none;
+      transition: background 450ms ease-in;
+      -webkit-appearance: none;
+}
+.absolute-box{
+    position: absolute;
+    left: 46.3%;
+    width: 40px;
+    height: 100px;
+    /* background: white; */
+    top: -9px;
+    z-index: 1;
+}
+.line{
+    position: absolute;
+    left: 50%;
+    background: white;
+    width: 1px;
+    height: 20px;
+    /* z-index: 100; */
+}
+.before{
+    top: 12px;
+}
+.after{
+    bottom: 7px;
+}
+.ab-text{
+    position: absolute;
+    left: 48%;
+}
+.fantasy-points{
+    top: -13px;
+    left: 26%;
+}
+.total-payout{
+    bottom: -13px;
+    left: -10%;
+}
+
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="payout-slider-header">
+            <h1 class="slider-heading">PAYOUT SLIDER</h1>
+            <div class="slider-buttons">
+                <button class="btn buy-btn active" id="buy-btn">BUY</button>
+                <button class="btn short-btn" id="short-btn">SHORT</button>
+            </div>
+        </div>
+        <div class="slider-price-div">
+            <div class="slider-price-shares">
+                <div class="slider-price">
+                    <p class="price-text top-tag">Price</p>
+                    <h3 class="price bottom-tag">$2.20</h3>
+                </div>
+                <div class="slider-shares">
+                    <p class="shares-text top-tag">
+                        Shares
+                    </p>
+                    <div class="shares-quantity">
+                        <span class="minus" id="minus">-</span>
+                        <input type="number" value="1" id="shares" maxlength="2">
+                        <span class="plus" id="plus">+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="total-pl-box">
+                <p class="total-pl-text top-tag">Total P/L</p>
+                <h3 class="total-pl bottom-tag" id="total-pl">+$0 (0%)</h3>
+            </div>
+        </div>
+        <div class="payout-slider-div">
+            <p class="slider-top slider-text">Fantasy Points</p>
+            <input type="range" min="0" max="44" id="slider" class="slider">
+            <div class="absolute-box">
+                <span class="before line"></span>
+                <span class="after line"></span>
+                <h3 class="fantasy-points price ab-text" id="fantasy-points">22</h3>
+                <h3 class="total-payout price ab-text" id="total-payout">$2.20</h3>
+            </div>
+            <p class="slider-bottom slider-text">Total Payout</p>
+        </div>
+    </div>
+
+
+    <script>
+        let slider = document.getElementById('slider');
+        let box = document.querySelector('.absolute-box');
+        let lines = document.querySelectorAll('.line');
+        let fantasy_points = document.getElementById('fantasy-points');
+        let total_payout = document.getElementById('total-payout'); 
+        let plus = document.getElementById('plus');
+        let minus = document.getElementById('minus');
+        let shares = document.getElementById('shares');
+        let total_pl = document.getElementById('total-pl');
+        let buy_btn = document.getElementById('buy-btn');
+        let short_btn = document.getElementById('short-btn');
+        let root = document.querySelector(':root');
+
+
+        let active_buy = true;
+        let active_short = false;
+
+        buy_btn.addEventListener('click', function(){
+            short_btn.classList.remove('active')
+            this.classList.add('active');
+            active_short = false;
+            active_buy = true;
+            root.style.setProperty('--background', '#32FFB8');
+            root.style.setProperty('--total', '#32FFB8');
+        })
+        short_btn.addEventListener('click', function(){
+            buy_btn.classList.remove('active')
+            this.classList.add('active');
+            active_buy = false;
+            active_short = true;
+            root.style.setProperty('--background', 'rgb(61, 61, 252)');
+            root.style.setProperty('--total', 'red');
+        })
+
+
+        let price = slider.value * 0.1;
+        let total_price = price;
+        
+        
+        plus.addEventListener('click', ()=>{
+            let value = shares.value
+            shares.value = parseInt(value) + 1; 
+            if(shares.value === ''){
+                shares.value = 1;
+            }
+            total_price = parseInt(shares.value) * price;
+        total_payout.innerHTML = "$" + total_price.toFixed(2);
+
+            console.log(total_price)
+        })
+        minus.addEventListener('click', ()=>{
+            let value = shares.value
+            if(shares.value === ''){
+                shares.value = 1;
+            }
+            if(value > 1){
+                shares.value = parseInt(value) - 1; 
+            }
+            total_price = parseInt(shares.value) * price;
+        total_payout.innerHTML = "$" + total_price.toFixed(2);
+
+
+            
+        })
+
+     
+        shares.oninput = function(){
+        if(parseInt(shares.value) < 1){
+            shares.value = 1;
+        }
+        total_price = parseInt(shares.value) * price;
+        total_payout.innerHTML = "$" + total_price.toFixed(2);
+
+        }
+
+        total_payout.innerHTML = "$" + total_price.toFixed(2);
+
+
+
+
+        slider.oninput = function (){
+            price = this.value * 0.1;
+            total_price = parseInt(shares.value) * price;
+            if(buy_btn.classList.contains('active')){
+                total_payout.innerHTML = "$" + total_price.toFixed(2);
+                if(price - 2.20 < 0){
+                    total_pl.innerHTML = "-$" + Math.abs(total_price - (parseInt(shares.value) * 2.20) ).toFixed(2) + " ("+((Math.abs(total_price - (parseInt(shares.value) * 2.20)) / (parseInt(shares.value) * 2.20)) * 100).toFixed(1) +"%)";
+                    total_pl.style.color = 'red';
+                }else{
+                    total_pl.innerHTML = "+$" + Math.abs(total_price - (parseInt(shares.value) * 2.20)).toFixed(2) + " ("+((Math.abs(total_price - (parseInt(shares.value) * 2.20)) / (parseInt(shares.value) * 2.20)) * 100).toFixed(1) +"%)";
+                    total_pl.style.color = "#32FFB8";
+                }
+            }else{
+                let value = parseFloat(((2.20 - price) * shares.value).toFixed(2));
+                total_payout.innerHTML = "$" + total_price.toFixed(2);
+                if(value < 0){
+                    total_pl.innerHTML = "-$" + Math.abs((value)).toFixed(2) + " ("+((Math.abs(value) / (parseInt(shares.value) * 2.20)) * 100).toFixed(1) +"%)";
+                    total_pl.style.color = 'red';
+                }else{
+                    total_pl.innerHTML = "+$" + (value).toFixed(2) + " ("+((Math.abs(value) / (parseInt(shares.value) * 2.20)) * 100).toFixed(1) +"%)";
+                    total_pl.style.color = '#32FFB8'
+                }
+            }
+
+            fantasy_points.innerHTML = this.value;
+            var value = ((this.value - this.min) / (this.max - this.min)) * 100;
+            this.style.background = "linear-gradient( to right, #7B87A5  "+value+"%, #292A2B "+value+"%, #292A2B 100% )";
+            box.style.left = value - 3.7 + "%";
+            lines.forEach(element =>{
+                element.style.left = 100 - value + "%";
+            })
+            fantasy_points.style.left = 76 - value + "%";
+            if(this.value < 10){
+                fantasy_points.style.left = 88 - value + "%";
+            }
+            total_payout.style.left = 40 - value + "%";
+            
+            
+
+        }
+    </script>
+</body>
+</html>
